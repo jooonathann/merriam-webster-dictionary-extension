@@ -20,9 +20,9 @@ export default function () {
   const { options } = useOptions();
   const { setActiveSection } = useActiveSection();
 
-  const handleSearch = (event: React.FormEvent<SearchFormElement>) => {
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const form = event.currentTarget;
+    const form = event.currentTarget as SearchFormElement;
     if (!form.elements.searchFor.value) return;
     doSearch(form.elements.searchFor.value);
   };

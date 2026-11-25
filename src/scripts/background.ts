@@ -73,10 +73,12 @@ async function handleMessages({ action, data }: MessageHandlerParams): Promise<G
 }
 
 // add look up item to context menu
-browser.contextMenus.create({
-  title: "Look up: %s",
-  contexts: ["selection"],
-  id: "lookup-selection-context-menu"
+browser.runtime.onInstalled.addListener(() => {
+  browser.contextMenus.create({
+    title: "Look up: %s",
+    contexts: ["selection"],
+    id: "lookup-selection-context-menu"
+  });
 });
 
 function lookupWebsite(info: browser.Menus.OnClickData) {

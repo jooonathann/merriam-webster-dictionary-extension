@@ -1,8 +1,9 @@
 import OpenInWebsite from "../OpenInWebsite/OpenInWebsite";
 import React, { FC } from "react";
 import { LookupResultType, LookupResultItem } from "../../../types";
-import { Accordion, Button, Divider, Group, List, Stack, Text, useComputedColorScheme } from "@mantine/core";
-import { FiVolume2 } from "react-icons/fi";
+import { Accordion, Button, Divider, Group, List, Stack, Text, useComputedColorScheme, ActionIcon, CopyButton, Tooltip } from "@mantine/core";
+import { FiVolume2, FiCopy, FiCheck } from "react-icons/fi";
+import { mwToIpa } from "../../../utils/mwToIpa";
 
 const Pron: FC<{
   item: LookupResultItem;
@@ -17,16 +18,62 @@ const Pron: FC<{
     return null;
   }
 
+  const ipa = mwToIpa(item.pron);
+
   return (
-    <Button
-      variant="light"
-      size="xs"
-      leftSection={<FiVolume2 size={16} />}
-      onClick={handlePronPlay}
-      mb="xs"
-    >
-      <span>{item.pron}</span>
-    </Button>
+    <Stack gap="xs" mb="xs">
+      {!!ipa && (
+        <Group gap="xs" align="center">
+          <Button
+            variant="light"
+            color="teal"
+            size="xs"
+            leftSection={<FiVolume2 size={16} />}
+            onClick={handlePronPlay}
+          >
+            <span>{`/${ipa}/`}</span>
+          </Button>
+          <CopyButton value={ipa}>
+            {({ copied, copy }) => (
+              <Tooltip label={copied ? "Copied" : "Copy international IPA"}>
+                <ActionIcon
+                  variant="light"
+                  size={30}
+                  color="teal"
+                  onClick={copy}
+                >
+                  {copied ? <FiCheck size={16} /> : <FiCopy size={16} />}
+                </ActionIcon>
+              </Tooltip>
+            )}
+          </CopyButton>
+        </Group>
+      )}
+      <Group gap="xs" align="center">
+        <Button
+          variant="light"
+          size="xs"
+          leftSection={<FiVolume2 size={16} />}
+          onClick={handlePronPlay}
+        >
+          <span>{item.pron}</span>
+        </Button>
+        <CopyButton value={item.pron}>
+          {({ copied, copy }) => (
+            <Tooltip label={copied ? "Copied" : "Copy pronunciation"}>
+              <ActionIcon
+                variant="light"
+                size={30}
+                color={copied ? "teal" : "blue"}
+                onClick={copy}
+              >
+                {copied ? <FiCheck size={16} /> : <FiCopy size={16} />}
+              </ActionIcon>
+            </Tooltip>
+          )}
+        </CopyButton>
+      </Group>
+    </Stack>
   );
 };
 
@@ -104,9 +151,11 @@ export default function ({ searchFor, result = [] }: LookupResultProps) {
                       <Text
                         size="sm"
                         dangerouslySetInnerHTML={
-                          { __html: ex
-                            .replaceAll("{it}", "<strong>").replaceAll("{/it}", "</strong>")
-                            .replaceAll("{wi}", "<strong>").replaceAll("{/wi}", "</strong>") }
+                          {
+                            __html: ex
+                              .replaceAll("{it}", "<strong>").replaceAll("{/it}", "</strong>")
+                              .replaceAll("{wi}", "<strong>").replaceAll("{/wi}", "</strong>")
+                          }
                         }
                       />
                     </List.Item>

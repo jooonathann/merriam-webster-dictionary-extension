@@ -2,7 +2,7 @@ import { MantineColorScheme } from "@mantine/core";
 
 export type ContentIframeScreen = "LOOKUP_RESULT" | "REVIEW_PROMOTE" | "REVIEW";
 
-export type PopupActiveSection = "Search" | "Result" | "Options" | "History";
+export type PopupActiveSection = "Search" | "Result" | "Options" | "History" | "NewPage";
 
 export type IframeContext = {
   searchTrend?: string;
@@ -32,6 +32,17 @@ export type LookupHistoryItem = {
 export type LookupHistory = Record<string, LookupHistoryItem>;
 
 export type ParsedHistoryArray = [string, number, boolean][];
+
+export type IpaSymbolType = "Vowel" | "Diphthong" | "Consonant";
+
+export type IpaSymbol = {
+  symbol: string;
+  name: string;
+  type: IpaSymbolType;
+  example: string;
+  howTo: string;
+  wikiUrl: string;
+};
 
 export type LookupResultItem = {
   id: string;
