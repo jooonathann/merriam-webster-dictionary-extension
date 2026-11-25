@@ -1,4 +1,4 @@
-# Merriam-Webster Dictionary Browser Extension
+# Forked Merriam-Webster Dictionary Browser Extension
 
 **[Available on the Chrome Web Store][1]**
 
